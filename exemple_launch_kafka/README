@@ -1,0 +1,8 @@
+Installer ce qui faut pour un docker-compose en particulier (là single) et launch
+docker-compose -f zk-single-kafka-single.yml up -d
+
+(vérif que ça tourne)
+docker-compose -f zk-single-kafka-single.yml ps
+
+(stop)
+docker-compose -f zk-single-kafka-single.yml stop
