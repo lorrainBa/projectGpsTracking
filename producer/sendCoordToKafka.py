@@ -5,8 +5,7 @@ def delivery_report(err, msg):
     if err is not None:
         print('Message delivery failed: {}'.format(err))
     else:
-        pass
-        #print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
+        print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
 
 def produce_message(bootstrap_servers, topic, message):
     """Produce a message to a Kafka topic."""

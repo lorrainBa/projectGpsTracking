@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: tracking_postgres
+    environment:
+      POSTGRES_USER: ttrackinguser
+      POSTGRES_PASSWORD: trackingpassword
+      POSTGRES_DB: trackingdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tracking_network
+    depends_on:
+    
+  producer1:
+    build:
+      context: ./path_to_your_producer
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
+
+  producer2:
+    build:
+      context: ./path_to_your_producer
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
+
+  consumer:
+    build:
+      context: ./
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
+
+  api:
+    build:
+      context: ./path_to_your_api
+    depends_on:
+      - consumer
+    ports:
+      - "8000:8000"
+    networks:
+      - tracking_network
+
+networks:
+  tracking_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
