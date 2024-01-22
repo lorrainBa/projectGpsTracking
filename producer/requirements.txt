@@ -1,2 +1,2 @@
 # Liste des bibliothèques Python avec leurs versions (si spécifié)
-confluent_kafka==2.3.0
+confluent-kafka==2.3.0

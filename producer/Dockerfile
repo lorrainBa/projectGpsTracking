@@ -5,13 +5,12 @@ FROM python:3.8
 WORKDIR /app
 
 # Copiez les fichiers nécessaires dans le conteneur
-COPY requirements.txt .
-COPY createCoord.py .
-COPY launchDemonstration.py .
-COPY sendCoordToKafka.py .
+COPY . .
 
 # Installez les dépendances, si nécessaire
 RUN pip install -r requirements.txt
 
+
+
 # Commande par défaut à exécuter lorsque le conteneur démarre
-CMD ["python", "main_code.py"]
+CMD ["python", "code/launchDemonstration.py"]

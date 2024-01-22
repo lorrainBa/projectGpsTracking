@@ -1,7 +1,7 @@
 
 def getCoordKebab():
     # Définir le chemin du fichier texte
-    chemin_fichier = './../data/kebabCoord.txt'
+    chemin_fichier = 'data/kebabCoord.txt'
 
     # Initialiser la liste de listes
     kebabsCoord = {}
@@ -25,7 +25,7 @@ def getCoordKebab():
 
 def calculateNewCoord(currentCoord, destination, speed):
     speed = speed * 0.00005
-     # Calculer la différence entre les coordonnées actuelles et la destination
+    # Calculer la différence entre les coordonnées actuelles et la destination
     diff_x = destination[0] - currentCoord[0]
     diff_y = destination[1] - currentCoord[1]
     
