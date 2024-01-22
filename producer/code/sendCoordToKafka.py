@@ -1,13 +1,7 @@
 from confluent_kafka import Producer
 
-def delivery_report(err, msg):
-    """Callback function called on message delivery confirmation."""
-    if err is not None:
-        print('Message delivery failed: {}'.format(err))
-    else:
-        pass
-        #print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
 
+#Envoie le message à un topic kafka
 def produce_message(bootstrap_servers, topic, message):
     """Produce a message to a Kafka topic."""
     producer_config = {
@@ -17,10 +11,7 @@ def produce_message(bootstrap_servers, topic, message):
     producer = Producer(producer_config)
 
     try:
-        # Produce message to topic
-        producer.produce(topic, value=str(message), callback=delivery_report)
-
-        # Wait for any outstanding messages to be delivered and delivery reports to be received
+        producer.produce(topic, value=str(message))
         producer.flush()
 
     except Exception as e:
