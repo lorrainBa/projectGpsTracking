@@ -5,12 +5,13 @@ services:
     image: postgres:latest
     container_name: tracking_postgres
     environment:
-      POSTGRES_USER: ttrackinguser
+      POSTGRES_USER: trackinguser
       POSTGRES_PASSWORD: trackingpassword
       POSTGRES_DB: trackingdb
     ports:
       - "5432:5432"
     volumes:
+      - ./db:/docker-entrypoint-initdb.d/
       - postgres_data:/var/lib/postgresql/data
     networks:
       - tracking_network
@@ -18,18 +19,24 @@ services:
   producer1:
     build:
       context: ./producer
+      dockerfile: Dockerfile
     depends_on:
-      - postgres
+      - kafka
     networks:
       - tracking_network
+    environment:
+      - IP_PRODUCER=producer1
 
   producer2:
     build:
       context: ./producer
+      dockerfile: Dockerfile
     depends_on:
-      - postgres
+      - kafka
     networks:
       - tracking_network
+    environment:
+      - IP_PRODUCER=producer2
 
   consumer:
     build:
