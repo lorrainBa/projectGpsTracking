@@ -34,12 +34,12 @@ async function consumeMessages(bootstrapServers, groupId, topic) {
       try {
         // Traitez les coordonnées reçues
         const coordinates = JSON.parse(message.value.toString());
-
+        console.log(coordinates);
         // Connectez-vous à la base de données
         await client.connect();
 
         // Ajoutez les données à la base de données sous forme JSON
-        const insertQuery = 'INSERT INTO votre_table (coordinates) VALUES ($1);';
+        const insertQuery = 'INSERT INTO coords (ip, latitude, longitude, nomLieu) VALUES ($1, $2, $3, $4);';
         await client.query(insertQuery, [JSON.stringify(coordinates)]);
 
         console.log('Received and stored message:', message.value.toString());
@@ -58,8 +58,8 @@ async function consumeMessages(bootstrapServers, groupId, topic) {
 }
 
 // Utilisation
-const bootstrapServers = 'kafka:9092'; // Utilisez le nom du service Kafka dans le réseau Docker
+const bootstrapServers = '172.21.0.2:9092'; // Utilisez le nom du service Kafka dans le réseau Docker
 const groupId = 'gps_consumer_group';
-const topic = 'gps_topic';
+const topic = 'coordinates';
 
 consumeMessages(bootstrapServers, groupId, topic);

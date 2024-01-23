@@ -3,18 +3,21 @@ from sendCoordToKafka import produce_message
 from math import sqrt
 import sys
 import json
-
+import os
 
 
 if __name__ == "__main__" :
     #Recuperer l'information si c'est executé en tant que producer 1 ou producer 2
-    if len(sys.argv) > 1:
-        numProducer = sys.argv[1]
-    else:
-        numProducer = "producer1"
+    numProducer = os.getenv("IP_PRODUCER")
+    print("numproducer----",numProducer)
+    # if len(sys.argv) > 1:
+    #     print("Ceci est l'input, normalement c'est producer1 ou producer2", sys.argv[1])
+    #     numProducer = sys.argv[1]
+    # else:
+    #     numProducer = "producer1"
         
     # Configuration pour kafka
-    bootstrap_servers = 'localhost:9092'
+    bootstrap_servers = '172.21.0.2:9092'
     kafka_topic = 'coordinates'
 
     #Recuperer les coordonnes des lieux à visiter de pau et la position initial à CY-Tech
@@ -30,14 +33,14 @@ if __name__ == "__main__" :
 
     #Tant qu'il y a des lieux à visiter le personnage va continuer à marcher
     while coordsToVisit:
-        nomKebab, destination = coordsToVisit.popitem()
+        nomLieu, destination = coordsToVisit.popitem()
 
         # Tant que le personnage n'est pas assez proche du lieux il continue d'avancer
         while (sqrt(((currentCoord[0]-destination[0])**2 + (currentCoord[1]-destination[1])**2))) > 0.00002:
             currentCoordToSend= calculateNewCoord(currentCoord, destination, speed = 1 )
             
             # Construire le message pour kafka en le metant sous forme de json
-            messageToSend = {"ip":numProducer,"latitude":currentCoordToSend[0],"longitude":currentCoordToSend[1],"nomKebab":nomKebab}
+            messageToSend = {"ip":numProducer,"latitude":currentCoordToSend[0],"longitude":currentCoordToSend[1],"nomLieu":nomLieu}
             messageToSend = json.dumps(messageToSend)
 
             print(messageToSend)
