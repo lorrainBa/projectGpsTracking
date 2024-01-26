@@ -1,7 +1,6 @@
-
 #Recuperer les coordonnées des lieux à visiter de Pau
-def getCoordsFromFile():
-    chemin_fichier = 'data/kebabCoord.txt'
+def getCoordsFromFile(place):
+    chemin_fichier = 'data/'+place+'Coord.txt'
     kebabsCoord = {}
 
     with open(chemin_fichier, 'r') as fichier:
