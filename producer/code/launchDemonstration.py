@@ -29,7 +29,9 @@ if __name__ == "__main__" :
         coordsToVisit = getCoordsFromFile()
         currentCoord = [43.31905613543263, -0.36047011901155285]
     
-
+    else:
+        print("Erreur dans le choix du producer")
+        exit()
 
     #Tant qu'il y a des lieux à visiter le personnage va continuer à marcher
     while coordsToVisit:
