@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: tracking_postgres
+    container_name: trackingpostgres
     environment:
       POSTGRES_USER: trackinguser
       POSTGRES_PASSWORD: trackingpassword
@@ -33,6 +33,7 @@ services:
       context: ./consumer
     depends_on:
       - postgres
+      - kafka
     networks:
       - tracking_network
 
@@ -53,6 +54,7 @@ services:
       - "9092:9092"
     volumes: 
       - "kafka_data:/bitnami"
+      - ./kafka-init:/docker-entrypoint-initdb.d/
     environment:
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_PROCESS_ROLES=controller,broker
@@ -62,6 +64,8 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    networks:
+      - tracking_network
    
   adminer:
     image: adminer
@@ -78,4 +82,5 @@ networks:
 volumes:
   postgres_data:
   kafka_data:
+    driver: local
 
