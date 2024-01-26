@@ -6,8 +6,10 @@ services:
     container_name: trackingpostgres
     environment:
       POSTGRES_USER: trackinguser
-      POSTGRES_PASSWORD: trackingpassword
+      POSTGRES_PASSWORD:    
       POSTGRES_DB: trackingdb
+    volumes: 
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:

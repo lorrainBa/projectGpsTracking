@@ -10,6 +10,7 @@ const dbConfig = {
 };
 
 const pgclient = new Client(dbConfig);
+
 pgclient.connect();
 
 async function consumeMessages(bootstrapServers, topic) {
@@ -29,11 +30,9 @@ async function consumeMessages(bootstrapServers, topic) {
       // Traitez les coordonnées reçues
       const coordinates = JSON.parse(message.value);
       console.log('coo', coordinates);
-      // Connectez-vous à la base de données
-
       // Ajoutez les données à la base de données sous forme JSON
       const insertQuery = 'INSERT INTO coords (ip, latitude, longitude, nomLieu) VALUES ($1, $2, $3, $4)';
-      await pgclient.query(insertQuery, [coordinates.ip, coordinates.latitudes, coordinates.longitude, coordinates.nomLieu]);
+      pgclient.query(insertQuery, [coordinates.ip, coordinates.latitudes, coordinates.longitude, coordinates.nomLieu]);
 
       console.log('Received and stored message:', message.value);
     } catch (error) {

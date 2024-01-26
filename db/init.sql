@@ -16,14 +16,8 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-
 CREATE TABLE coords(id SERIAL NOT NULL PRIMARY KEY,
                     ip character varying(30), 
                     latitude FLOAT, 
                     longitude FLOAT, 
                     nomLieu VARCHAR(100));
-
---
--- PostgreSQL database dump complete
---
-
