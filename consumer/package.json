@@ -1,14 +1,16 @@
 {
-    "name": "gps-consumer",
-    "version": "1.0.0",
-    "description": "GPS Consumer for Kafka and PostgreSQL",
-    "main": "consumer.js",
-    "dependencies": {
-      "node-rdkafka": "^2.7.0",
-      "pg": "^8.6.0"
-    },
-    "scripts": {
-      "start": "node consumer.js"
-    }
+  "name": "consumer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "consumer.js",
+  "scripts": {
+    "start": "node consumer.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-node": "^5.0.0",
+    "pg": "^8.11.3"
   }
-  
+}

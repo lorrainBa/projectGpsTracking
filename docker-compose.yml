@@ -12,29 +12,29 @@ services:
       - "5432:5432"
     networks:
       - tracking_network
-  # producer1:
-  #   build:
-  #     context: ./producer
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - tracking_network
+  producer1:
+    build:
+      context: ./producer
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
 
-  # producer2:
-  #   build:
-  #     context: ./producer
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - tracking_network
+  producer2:
+    build:
+      context: ./producer
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
 
-  # consumer:
-  #   build:
-  #     context: ./consumer
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - tracking_network
+  consumer:
+    build:
+      context: ./consumer
+    depends_on:
+      - postgres
+    networks:
+      - tracking_network
 
   api:
     build:
@@ -47,29 +47,29 @@ services:
       - tracking_network
     
 
-  # kafka:
-  #   image: bitnami/kafka:latest
-  #   ports:
-  #     - "9092:9092"
-  #   volumes: 
-  #     - "kafka_data:/bitnami"
-  #   environment:
-  #     - KAFKA_CFG_NODE_ID=0
-  #     - KAFKA_CFG_PROCESS_ROLES=controller,broker
-  #     - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-  #     - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-  #     - KAFKA_CFG_LISTENERS=PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
-  #     - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-  #     - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-  #     - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+    volumes: 
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
    
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports: 
-  #     - 8080:8080
-  #   networks:
-  #     - tracking_network
+  adminer:
+    image: adminer
+    restart: always
+    ports: 
+      - 8080:8080
+    networks:
+      - tracking_network
 
 networks:
   tracking_network:
@@ -77,5 +77,5 @@ networks:
 
 volumes:
   postgres_data:
-  # kafka_data:
+  kafka_data:
 

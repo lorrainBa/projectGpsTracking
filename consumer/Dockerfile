@@ -1,15 +1,9 @@
-FROM node:14
+FROM node:20.9.0-alpine
 
 WORKDIR /app
 
-COPY package.json /app/
+COPY . .
 
 RUN npm install
 
-COPY . /app/
-
-# Exposer le port si nécessaire
-# EXPOSE 3000
-
-# Commande pour démarrer l'application
-CMD ["node", "consumer.js"]
+CMD npm start
