@@ -3,14 +3,13 @@ const kafka = require('kafka-node');
 
 const dbConfig = {
   user: 'trackinguser',
-  host: 'trackingpostgres',
+  host: 'postgres',
   database: 'trackingdb',
   password: 'trackingpassword',
   port: 5432,
 };
 
-const pgclient = new Client(dbConfig);
-pgclient.connect();
+const client = new Client(dbConfig);
 
 async function consumeMessages(bootstrapServers, topic) {
   const client = new kafka.KafkaClient({ kafkaHost: bootstrapServers });
@@ -28,12 +27,13 @@ async function consumeMessages(bootstrapServers, topic) {
     try {
       // Traitez les coordonnées reçues
       const coordinates = JSON.parse(message.value);
-      console.log('coo', coordinates);
+      console.log(coordinates);
       // Connectez-vous à la base de données
+      await client.connect();
 
       // Ajoutez les données à la base de données sous forme JSON
-      const insertQuery = 'INSERT INTO coords (ip, latitude, longitude, nomLieu) VALUES ($1, $2, $3, $4)';
-      await pgclient.query(insertQuery, [coordinates.ip, coordinates.latitudes, coordinates.longitude, coordinates.nomLieu]);
+      const insertQuery = 'INSERT INTO coords (ip, latitude, longitude, nomLieu) VALUES ($1, $2, $3, $4);';
+      await client.query(insertQuery, [JSON.stringify(coordinates)]);
 
       console.log('Received and stored message:', message.value);
     } catch (error) {
