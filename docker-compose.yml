@@ -38,7 +38,7 @@ services:
       - kafka
     networks:
       - tracking_network
-    command: ["script.sh"]
+    command: ["sh", "-c", "script.sh"]
 
 
   api:
