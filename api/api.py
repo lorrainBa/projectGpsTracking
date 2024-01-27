@@ -1,46 +1,37 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
-from sqlalchemy import create_engine, Column, Integer, Float
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from models import Coordinates  # Assurez-vous d'importer votre modèle de données correctement
 import time 
-
-Base = declarative_base()
-
-DATABASE_URL = "postgresql://trackinguser:trackingpassword@postgres/trackingdb"
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Création de la base de données coordonnées avec des colonnes id, latitude et longitude
-class Coordinates(Base):
-    __tablename__ = "coordinates"
-
-    id = Column(Integer, primary_key=True, index=True)
-    latitude = Column(Float)
-    longitude = Column(Float)
 
 app = FastAPI()
 
-# Configuration de la base de données
+DATABASE_URL = "postgresql://trackinguser:trackingpassword@postgres/trackingdb"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 @app.on_event("startup")
 def startup_db_client():
-    time.sleep(5)
-    Base.metadata.create_all(bind=engine)
+    time.sleep(5)  # Attente pour s'assurer que la base de données est prête
+    pass  # Vous pouvez exécuter d'autres opérations d'initialisation ici si nécessaire
 
-# Fermeture de la connexion à la base de données
 @app.on_event("shutdown")
 def shutdown_db_client():
     SessionLocal.close()
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    # Récupérer les coordonnées depuis la base de données
     db = SessionLocal()
-    coordinates = db.query(Coordinates).first()
+    coordinates = db.query(Coordinates).all()  # Récupérer toutes les coordonnées
     db.close()
 
-    # Générer la page HTML avec les coordonnées
+    if not coordinates:
+        raise HTTPException(status_code=404, detail="No coordinates found")
+
+    # Créer une liste de marqueurs pour Leaflet
+    markers = ''.join(f"L.marker([{coord.latitude}, {coord.longitude}]).addTo(map);\n" for coord in coordinates)
+
     html_content = f"""
     <html>
     <head>
@@ -68,14 +59,15 @@ def read_root():
         <h1>Map</h1>
         <div id="map"></div>
         <script>
-            var map = L.map('map').setView([{coordinates.latitude}, {coordinates.longitude}], 13);
+            var map = L.map('map').setView([{coordinates[0].latitude}, {coordinates[0].longitude}], 13);
             L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
                 attribution: '© OpenStreetMap contributors'
             }}).addTo(map);
-            L.marker([{coordinates.latitude}, {coordinates.longitude}]).addTo(map);
+            {markers}
         </script>
     </body>
     </html>
     """
 
     return HTMLResponse(content=html_content)
+
