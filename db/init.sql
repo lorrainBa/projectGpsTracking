@@ -16,6 +16,8 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+SET search_path TO public;
+
 CREATE TABLE coords(id SERIAL NOT NULL PRIMARY KEY,
                     ip character varying(30), 
                     latitude FLOAT, 

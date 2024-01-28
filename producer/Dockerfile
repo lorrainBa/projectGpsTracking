@@ -10,7 +10,5 @@ COPY . .
 # Installez les dépendances, si nécessaire
 RUN pip install -r requirements.txt
 
-
-
 # Commande par défaut à exécuter lorsque le conteneur démarre
 CMD ["python", "code/launchDemonstration.py"]
