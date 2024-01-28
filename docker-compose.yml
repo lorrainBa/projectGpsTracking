@@ -36,9 +36,10 @@ services:
     depends_on:
       - postgres
       - kafka
+    volumes:
+      - ./consumer/script.sh:/docker-entrypoint-initdb.d/script.sh
     networks:
       - tracking_network
-    command: ["sh", "-c", "script.sh"]
 
 
   api:
