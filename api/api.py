@@ -1,35 +1,40 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, Float, String
 from sqlalchemy.orm import sessionmaker
-from models import Coordinates  # Assurez-vous d'importer votre modèle de données correctement
-import time 
+from sqlalchemy.ext.declarative import declarative_base
 
+# Définition de la base SQLAlchemy
+Base = declarative_base()
+
+# Définition du modèle Coords
+class Coords(Base):
+    __tablename__ = 'coords'
+
+    id = Column(Integer, primary_key=True, index=True)
+    ip = Column(String, nullable= True)  # Ajout de la colonne ip
+    latitude = Column(Float)
+    longitude = Column(Float)
+    nomlieu = Column(String)  # Ajout de la colonne nomlieu
+
+# Initialisation de FastAPI
 app = FastAPI()
 
+# Configuration de la base de données
 DATABASE_URL = "postgresql://trackinguser:trackingpassword@postgres/trackingdb"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-@app.on_event("startup")
-def startup_db_client():
-    time.sleep(5)  # Attente pour s'assurer que la base de données est prête
-    pass  # Vous pouvez exécuter d'autres opérations d'initialisation ici si nécessaire
-
-@app.on_event("shutdown")
-def shutdown_db_client():
-    SessionLocal.close()
-
+# Route principale de l'API
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     db = SessionLocal()
-    coordinates = db.query(Coordinates).all()  # Récupérer toutes les coordonnées
+    coordinates = db.query(Coords).all()  # Utilisation du modèle Coords
     db.close()
 
     if not coordinates:
         raise HTTPException(status_code=404, detail="No coordinates found")
 
-    # Créer une liste de marqueurs pour Leaflet
     markers = ''.join(f"L.marker([{coord.latitude}, {coord.longitude}]).addTo(map);\n" for coord in coordinates)
 
     html_content = f"""
@@ -70,4 +75,3 @@ def read_root():
     """
 
     return HTMLResponse(content=html_content)
-

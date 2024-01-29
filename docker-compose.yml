@@ -21,6 +21,8 @@ services:
       - postgres
     networks:
       - tracking_network
+    environment:
+      - IP_PRODUCER=producer1
 
   producer2:
     build:
@@ -29,6 +31,8 @@ services:
       - postgres
     networks:
       - tracking_network
+    environment:
+      - IP_PRODUCER=producer2
 
   consumer:
     build:

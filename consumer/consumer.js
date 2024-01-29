@@ -32,7 +32,7 @@ async function consumeMessages(bootstrapServers, topic) {
       console.log('coo', coordinates);
       // Ajoutez les données à la base de données sous forme JSON
       const insertQuery = 'INSERT INTO coords (ip, latitude, longitude, nomLieu) VALUES ($1, $2, $3, $4)';
-      pgclient.query(insertQuery, [coordinates.ip, coordinates.latitudes, coordinates.longitude, coordinates.nomLieu]);
+      pgclient.query(insertQuery, [coordinates.ip, coordinates.latitude, coordinates.longitude, coordinates.nomLieu]);
 
       console.log('Received and stored message:', message.value);
     } catch (error) {

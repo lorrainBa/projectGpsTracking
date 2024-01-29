@@ -10,12 +10,6 @@ if __name__ == "__main__" :
     #Recuperer l'information si c'est executé en tant que producer 1 ou producer 2
     numProducer = os.getenv("IP_PRODUCER")
     print("numproducer----",numProducer)
-    
-    # if len(sys.argv) > 1:
-    #     print("Ceci est l'input, normalement c'est producer1 ou producer2", sys.argv[1])
-    #     numProducer = sys.argv[1]
-    # else:
-    #     numProducer = "producer1"
         
     # Configuration pour kafka
     bootstrap_servers = 'kafka:9092'
@@ -31,11 +25,6 @@ if __name__ == "__main__" :
         coordsToVisit = getCoordsFromFile("garden")
         currentCoord = [43.31905613543263, -0.36047011901155285]
 
-    else:
-        print("Erreur dans le choix du producer, cas à traiter. Pour l'instant c'est le producer1.")
-        coordsToVisit = getCoordsFromFile("kebab")
-        currentCoord = [43.31905613543263, -0.36047011901155285]
-    
     currentCoordsToVisit = coordsToVisit
 
     #Tant qu'il y a des lieux à visiter le personnage va continuer à marcher
