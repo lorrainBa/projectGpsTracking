@@ -37,7 +37,7 @@ if __name__ == "__main__" :
             currentCoordToSend= calculateNewCoord(currentCoord, destination, speed = 1 )
             
             # Construire le message pour kafka en le metant sous forme de json
-            messageToSend = {"ip":numProducer,"latitude":currentCoordToSend[0],"longitude":currentCoordToSend[1],"nomLieu":nomLieu}
+            messageToSend = {"numProducer":numProducer,"latitude":currentCoordToSend[0],"longitude":currentCoordToSend[1],"nomLieu":nomLieu}
             messageToSend = json.dumps(messageToSend)
 
             print(messageToSend)

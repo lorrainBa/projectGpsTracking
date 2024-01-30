@@ -12,7 +12,7 @@ class Coords(Base):
     __tablename__ = 'coords'
 
     id = Column(Integer, primary_key=True, index=True)
-    ip = Column(String, nullable= True)  # Ajout de la colonne ip
+    numProducer = Column(String, nullable= True)  # Ajout de la colonne numProducer
     latitude = Column(Float)
     longitude = Column(Float)
     nomlieu = Column(String)  # Ajout de la colonne nomlieu

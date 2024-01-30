@@ -19,7 +19,7 @@ SET row_security = off;
 SET search_path TO public;
 
 CREATE TABLE coords(id SERIAL NOT NULL PRIMARY KEY,
-                    ip character varying(30), 
+                    numProducer character varying(30), 
                     latitude FLOAT, 
                     longitude FLOAT, 
                     nomLieu VARCHAR(100));

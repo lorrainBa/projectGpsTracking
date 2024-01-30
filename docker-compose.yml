@@ -19,6 +19,7 @@ services:
       context: ./producer
     depends_on:
       - postgres
+      - kafka
     networks:
       - tracking_network
     environment:
@@ -29,6 +30,7 @@ services:
       context: ./producer
     depends_on:
       - postgres
+      - kafka
     networks:
       - tracking_network
     environment:
@@ -61,8 +63,6 @@ services:
     image: bitnami/kafka:latest
     ports:
       - "9092:9092"
-    volumes: 
-      - "kafka_data:/bitnami"
     environment:
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_PROCESS_ROLES=controller,broker
