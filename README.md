@@ -12,6 +12,7 @@ docker-compose down
 
 La carte est accessible à l'adresse http://localhost:8000/. Elle permet de suivre deux parcours différents : un marqueur fait le tour des kebabs de Pau en partant de CY-Tech, un autre fait le tour des parcs.
 
-(https://github.com/lorrainBa/projectGpsTracking/assets/100688035/52b4b7c0-1389-4336-96dc-6091dc932350)
+[trackinggps.webm](https://github.com/lorrainBa/projectGpsTracking/assets/100688035/c74dca55-7c2c-49fb-8ea2-68f0a7ebda10)
+
 
 
