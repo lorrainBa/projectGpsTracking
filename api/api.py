@@ -40,7 +40,7 @@ async def coords_stream(producer: str):
     async def event_stream():
         for coord in coordinates:
             yield f"data: {json.dumps({'latitude': coord.latitude, 'longitude': coord.longitude})}\n\n"
-            await asyncio.sleep(0.001)  # On attend un millième de seconde entre chaque set
+            await asyncio.sleep(0.01)  # On attend un centième de seconde entre chaque set
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
