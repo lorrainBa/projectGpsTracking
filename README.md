@@ -1,5 +1,6 @@
-Producer changer "bootstrap_servers" avec l'ip du réseau, les PC doivent etre sur le meme reseau
-Dans le consumer c'est kafka:9092 il faudra changer le kafka partout par l'ip de la personne qui execute le Consumer
+Application de tracking GPS avec Kafka.
 
-docker-compose down --rmi all
-sudo docker-compose up --build
+Pour lancer l'application : 
+docker-compose up --build
+
+La carte est accessible à l'adresse http://localhost:8000/. Elle permet de suivre deux parcours différents : un marqueur fait le tour des kebabs de Pau en partant de CY-Tech, un autre fait le tour des parcs.
