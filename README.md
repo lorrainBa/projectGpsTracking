@@ -6,8 +6,8 @@ Cette application utilise Docker, Kafka, PostgreSQL, et FastAPI pour créer un s
 
 docker-compose up --build
 
-Pour l'arrêter : 
+## Pour l'arrêter : 
 
-## docker-compose down
+docker-compose down
 
 La carte est accessible à l'adresse http://localhost:8000/. Elle permet de suivre deux parcours différents : un marqueur fait le tour des kebabs de Pau en partant de CY-Tech, un autre fait le tour des parcs.
